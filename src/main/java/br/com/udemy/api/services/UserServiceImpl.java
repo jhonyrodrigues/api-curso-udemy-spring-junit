@@ -6,6 +6,7 @@ import br.com.udemy.api.services.exceptions.ObjectNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -18,5 +19,9 @@ public class UserServiceImpl implements UserService {
     public User findById(Integer id) {
         Optional<User> user = repository.findById(id);
         return user.orElseThrow(() -> new ObjectNotFoundException("User not found"));
+    }
+
+    public List<User> findAll() {
+        return repository.findAll();
     }
 }
