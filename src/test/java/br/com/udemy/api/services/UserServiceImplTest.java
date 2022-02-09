@@ -3,6 +3,7 @@ package br.com.udemy.api.services;
 import br.com.udemy.api.domain.User;
 import br.com.udemy.api.domain.dto.UserDto;
 import br.com.udemy.api.repositories.UserRepository;
+import br.com.udemy.api.services.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -21,9 +22,10 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 class UserServiceImplTest {
 
-    private static final Integer ID      = 1;
-    private static final String NAME     = "Jhony";
-    private static final String EMAIL    = "jhony.o_rodrigues@hotmail.com";
+    private static final String USER_NOT_FOUND = "User not found";
+    private static final Integer ID = 1;
+    private static final String NAME = "Jhony";
+    private static final String EMAIL = "jhony.o_rodrigues@hotmail.com";
     private static final String PASSWORD = "123";
 
     @InjectMocks
@@ -62,6 +64,20 @@ class UserServiceImplTest {
         assertEquals(ID, response.getId());
         assertEquals(NAME, response.getName());
         assertEquals(EMAIL, response.getEmail());
+    }
+
+    @Test
+    void whenFindByYdThenReturnObjectNotFoundException() {
+
+        when(repository.findById(anyInt())).thenThrow(new ObjectNotFoundException(USER_NOT_FOUND));
+
+        try {
+            service.findById(ID);
+        } catch (Exception ex) {
+            assertEquals(ObjectNotFoundException.class, ex.getClass());
+            assertEquals(USER_NOT_FOUND, ex.getMessage());
+        }
+
     }
 
     @Test
