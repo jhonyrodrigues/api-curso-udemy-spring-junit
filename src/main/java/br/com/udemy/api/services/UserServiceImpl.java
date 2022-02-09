@@ -3,6 +3,7 @@ package br.com.udemy.api.services;
 import br.com.udemy.api.domain.User;
 import br.com.udemy.api.domain.dto.UserDto;
 import br.com.udemy.api.repositories.UserRepository;
+import br.com.udemy.api.services.exceptions.DataIntegratyViolationException;
 import br.com.udemy.api.services.exceptions.ObjectNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -30,6 +31,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(UserDto obj) {
+        findByEmail(obj);
         return repository.save(mapper.map(obj, User.class));
+    }
+
+    private void findByEmail(UserDto obj) {
+        Optional<User> user = repository.findByEmail(obj.getEmail());
+        if (user.isPresent()){
+            throw new DataIntegratyViolationException("E-mail já cadastrado no sistema.");
+        }
     }
 }
