@@ -32,6 +32,7 @@ class UserServiceImplTest {
     private static final String EMAIL = "jhony.o_rodrigues@hotmail.com";
     private static final String PASSWORD = "123";
     private static final Integer INDEX = 0;
+    public static final String NOT_FOUND = "User not found";
 
     @InjectMocks
     private UserServiceImpl service;
@@ -166,6 +167,18 @@ class UserServiceImplTest {
         doNothing().when(repository).deleteById(anyInt());
         service.delete(ID);
         verify(repository, times(1)).deleteById(anyInt());
+    }
+
+    @Test
+    void deleteObjectNotFoundException() {
+        when(repository.findById(anyInt()))
+                .thenThrow(new ObjectNotFoundException(USER_NOT_FOUND));
+        try {
+            service.delete(ID);
+        } catch (Exception ex) {
+            assertEquals(ObjectNotFoundException.class, ex.getClass());
+            assertEquals(USER_NOT_FOUND, ex.getMessage());
+        }
     }
 
     private void startUser() {
