@@ -32,8 +32,8 @@ class UserResourceTest {
     private static final String PASSWORD = "123";
     private static final Integer INDEX = 0;
 
-    private User user;
-    private UserDto userDto;
+    private User user = new User();
+    private UserDto userDto = new UserDto();
 
     @InjectMocks
     private UserResource resource;

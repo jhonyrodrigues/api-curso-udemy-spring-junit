@@ -6,6 +6,7 @@ import lombok.*;
 @Setter
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserDto {
 
     private Integer id;
