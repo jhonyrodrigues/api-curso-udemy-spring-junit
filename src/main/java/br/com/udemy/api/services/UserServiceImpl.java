@@ -5,19 +5,20 @@ import br.com.udemy.api.domain.dto.UserDto;
 import br.com.udemy.api.repositories.UserRepository;
 import br.com.udemy.api.services.exceptions.DataIntegratyViolationException;
 import br.com.udemy.api.services.exceptions.ObjectNotFoundException;
-import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository repository;
-    private final ModelMapper mapper;
+    @Autowired
+    private UserRepository repository;
+    @Autowired
+    private ModelMapper mapper;
 
     @Override
     public User findById(Integer id) {
