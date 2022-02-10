@@ -2,8 +2,8 @@ package br.com.udemy.api.resources;
 
 import br.com.udemy.api.domain.dto.UserDto;
 import br.com.udemy.api.services.UserService;
-import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -12,13 +12,14 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("user")
 public class UserResource {
 
-    private final UserService service;
-    private final ModelMapper mapper;
+    @Autowired
+    private UserService service;
+    @Autowired
+    private ModelMapper mapper;
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> findById(@PathVariable Integer id) {
